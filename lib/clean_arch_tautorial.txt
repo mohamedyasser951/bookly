@@ -1,0 +1,2 @@
+Entity => Data Representaion
+UseCase Example => Can Check Permission
