@@ -1,2 +1,4 @@
 Entity => Data Representaion
 UseCase Example => Can Check Permission
+
+  var data= await apiService.get(endPoints: 'volumes?Sorting=newest&q=$categoryName');
