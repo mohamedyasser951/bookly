@@ -12,11 +12,10 @@ class FeaturedBookItem extends StatelessWidget {
       height: 280,
       width: 150,
       child: Card(
-        elevation: 5,
+        elevation: 6,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16.0),
           child: CachedNetworkImage(
-            // width: 170,
             imageUrl: bookEntity.image,
             fit: BoxFit.cover,
             progressIndicatorBuilder: (context, url, downloadProgress) =>
