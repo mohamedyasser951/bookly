@@ -5,57 +5,34 @@ import 'package:bookly/features/home/data/models/book_model/book_model.dart';
 import 'package:bookly/features/home/domain/entities/book_entity.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<List<BookEntity>> fetchFeaturedBooks();
-  Future<List<BookEntity>> fetchNewestBooks();
+  Future<List<BookEntity>> fetchFeaturedBooks({int pageNumber = 0});
+  Future<List<BookEntity>> fetchNewestBooks({int pageNumber = 0});
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   ApiService apiService;
   HomeRemoteDataSourceImpl({required this.apiService});
   @override
-
-  /// Fetches the list of featured books from the remote data source.
-  ///
-  /// The list is filtered by free e-books and sorted by relevance.
-  /// The query is set to "programming".
-  ///
-  /// The data is fetched from the remote API using the `get` method of the
-  /// `ApiService` class. The endpoint is set to "volumes" with the parameters
-  /// "Filtering=free-ebooks" and "q=programming".
-  ///
-  /// The list of books is then converted to a list of `BookEntity` objects using
-  /// the `getBooksList` function and saved to the local database using the
-  /// `saveBooksData` function with the box name "kFeaturedBooks".
-  ///
-  Future<List<BookEntity>> fetchFeaturedBooks() async {
+  Future<List<BookEntity>> fetchFeaturedBooks({int pageNumber = 0}) async {
+    int startIndex = pageNumber * 10;
     final data = await apiService.get(
-        endpoint: "volumes?Filtering=free-ebooks&q=programming");
+        endpoint:
+            "volumes?Filtering=free-ebooks&q=programming&startIndex=$startIndex");
     List<BookEntity> books = getBooksList(data);
     saveBooksData(books: books, boxName: kFeaturedBooks);
     return books;
   }
 
   @override
-
-  /// Fetches the list of newest books from the remote data source.
-  /// The list is filtered by free e-books and sorted by newest.
-  /// The query is set to "programming".
-  Future<List<BookEntity>> fetchNewestBooks() async {
+  Future<List<BookEntity>> fetchNewestBooks({int pageNumber = 0}) async {
     final data = await apiService.get(
-        endpoint: "volumes?Filtering=free-ebooks&Sorting=newest&q=programming");
+        endpoint:
+            "volumes?Filtering=free-ebooks&Sorting=newest&q=programming&startIndex=${pageNumber * 10}");
     List<BookEntity> books = getBooksList(data);
     saveBooksData(books: books, boxName: kNewestBooks);
     return books;
   }
 }
-
-/// Converts a map of data into a list of `BookEntity` objects.
-///
-/// Takes a map [data] that contains a key "items" with a list of book data.
-/// Each item is converted to a `BookModel` using `fromJson` method and added
-/// to the list of `BookEntity`.
-///
-/// Returns a list of `BookEntity` objects parsed from the input data.
 
 List<BookEntity> getBooksList(Map<String, dynamic> data) {
   List<BookEntity> books = [];

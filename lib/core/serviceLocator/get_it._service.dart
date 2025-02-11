@@ -10,6 +10,7 @@ import 'package:bookly/features/home/presentation/HomeCubits/NewestBooksCubit/ne
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 /// Registers all the dependencies needed for the app to work
 /// including Blocs, UseCases, Repositories and DataSources
@@ -45,6 +46,11 @@ Future<void> setupServiceLocator() async {
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio: getIt()));
 
 //*************************Packages************************
-  getIt.registerLazySingleton<Dio>(() => Dio());
+  getIt.registerLazySingleton<Dio>(() => Dio()
+    ..interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+    )));
   getIt.registerLazySingleton<HiveInterface>(() => Hive);
 }

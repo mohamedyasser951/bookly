@@ -1,6 +1,5 @@
 import 'package:bookly/core/constants/image_assets.dart';
 import 'package:bookly/features/home/presentation/widgets/FeaturedBookWidgets/featured_book_list_view_bloc_builder.dart';
-import 'package:bookly/features/home/presentation/widgets/NewestBookWidgets/newest_book_bloc_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -44,7 +43,7 @@ class HomePageBody extends StatelessWidget {
                   'Newest Books',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                NewestBookBlocBuilder()
+                // NewestBookBlocBuilder()
               ],
             ),
           ),
